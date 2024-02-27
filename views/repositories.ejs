@@ -1,0 +1,16 @@
+<div>
+    <h1>GitLab Group Repositories</h1>
+    <% if (repositories.length > 0) { %>
+        <ul>
+            <% repositories.forEach(repo => { %>
+                <li>
+                    <strong><%= repo.name %></strong><br>
+                    <em>Repository ID: <%= repo.id %></em><br>
+                    <a href="/repos/<%= repo.id %>/issues"><%= repo.name %></a>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No repositories found.</p>
+    <% } %>
+</div>

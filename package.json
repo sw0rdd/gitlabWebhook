@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "NODE_ENV=production node app.js",
     "devStart": "NODE_ENV=development nodemon app.js",
@@ -54,6 +55,7 @@
     "express": "^4.18.2",
     "express-ejs-layouts": "^2.5.1",
     "morgan": "^1.10.0",
+    "node-fetch": "^3.3.2",
     "wscat": "^5.2.0"
   }
 }

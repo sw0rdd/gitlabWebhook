@@ -1,0 +1,16 @@
+<div>
+    <h1>GitLab Group Issues</h1>
+    <% if (issues.length > 0) { %>
+        <ul>
+            <% issues.forEach(issue => { %>
+                <li>
+                    <strong><%= issue.title %></strong> - <%= issue.state %><br>
+                    <em>Repository ID: <%= issue.project_id %>, Issue ID: <%= issue.id %></em><br>
+                    <a href="<%= issue.web_url %>">View on GitLab</a>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No issues found.</p>
+    <% } %>
+</div>
