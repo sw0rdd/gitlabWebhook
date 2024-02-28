@@ -1,74 +1,54 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import fetch from 'node-fetch'
+import { getIo } from '../socket.js'
 
 dotenv.config()
 
 const gitlabToken = process.env.TOKEN
 const groupID = process.env.GROUP_ID
+const projectID = process.env.PROJECT_ID
 
 
 
 export const gitlabWebhook = (req, res) => {
-    // TODO: Implement this
-    res.status(200).send('Webhook received')
+    const secretToken = req.headers['x-gitlab-token'];
+
+    if(secretToken !== process.env.TOKEN) {
+        return res.status(401).send('Unathorized')
+    }
+
+    const eventData = req.body;
+    console.log(eventData);
+
+    const io = getIo();
+    io.emit('issue-event', eventData)
+    res.status(200).send('webhook received');
 }
 
 
-const fetchRepositories = async (groupID) => {
-    console.log(groupID)
-    console.log(gitlabToken)
-    const response = await fetch(`https://gitlab.lnu.se/api/v4/groups/${groupID}/projects`, {
-    headers: {
-        'Authorization': `Bearer ${gitlabToken}`
-    }
-    })
-    
-    if (!response.ok) {
-        throw new Error('Failed to fetch repositories')
-    }
-
-    return await response.json()
-    
-}
 
 
-const fetchIssuesForRepository = async (projectID) => {
+const fetchIssuesForSpecificRepository = async () => {
     const response = await fetch(`https://gitlab.lnu.se/api/v4/projects/${projectID}/issues`, {
-    headers: {
-        'Authorization': `Bearer ${gitlabToken}`
-    }
-    })
+        headers: {
+            'Authorization': `Bearer ${gitlabToken}`
+        }
+    });
 
-    if (!response.ok) {
-        throw new Error('Failed to fetch repositories')
-    }
+    if (!response.ok) { 
+        throw new Error('Failed to fetch issues for the specific repository');
+    } 
 
-    return await response.json()
-
-}
-
-
-
-export const listRepositories = async (req, res) => {
-    try {
-        const repositories = await fetchRepositories(groupID);
-        // Render a view called 'repositories.ejs' and pass the repositories data
-        res.render('repositories', { repositories });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Failed to fetch repositories');
-    }
+    return await response.json();
 };
 
-export const listRepositoryIssues = async (req, res) => {
+export const listSpecificRepositoryIssues = async (req, res) => {
     try {
-        const { repoId } = req.params; // Get the repository ID from the URL parameter
-        const issues = await fetchIssuesForRepository(repoId);
-        // Render a view called 'issues.ejs' and pass the issues data
+        const issues = await fetchIssuesForSpecificRepository();
         res.render('issues', { issues });
     } catch (error) {
         console.error(error);
-        res.status(500).send(`Failed to fetch issues for repository ${req.params.repoId}`);
+        res.status(500).send('Failed to fetch issues for the specific repository');
     }
-};
+}
