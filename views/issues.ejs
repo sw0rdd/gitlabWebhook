@@ -1,5 +1,15 @@
 
 
+<nav class="navbar" class="issues-navbar">
+    <ul>
+        <li>
+            <li><a href="<%= repoUrl %>" target="_blank">Repository</a></li>
+            <li><a href="<%= authorUrl %>" target="_blank">Author</a></li>
+            <li><a href="<%= issuesUrl %>" target="_blank">RepoIssues</a></li>
+        </li>
+    </ul>
+</nav>
+
 <h1>Dashboard</h1>
 <div id="issues-list">
     <% issues.forEach(function(issue) { %>

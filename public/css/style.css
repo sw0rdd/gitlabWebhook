@@ -112,6 +112,10 @@ header {
 
 /* nav and footer */
 
+.issues-navbar {
+    margin-top: 10px;
+}
+
 .navbar ul {
     list-style-type: none;
     background-color: #e8be3f;

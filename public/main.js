@@ -17,8 +17,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 isseuElement.querySelector('.issue-title').textContent = data.object_attributes.title;
                 
                 // updated at
-                console.log('updated at:', data.object_attributes.updated_at)
-                isseuElement.querySelector('.issue-date').textContent = `Last updated at: ${data.object_attributes.updated_at}`
+                isseuElement.querySelector('.issue-update').textContent = `Last updated at: ${data.object_attributes.updated_at}`
 
                 
                 // newly added issue
