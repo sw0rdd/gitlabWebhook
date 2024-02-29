@@ -13,6 +13,15 @@ dotenv.config()
 const app = express()
 
 
+// middle ware to set some default valeus that will be set in controller
+app.use((req, res, next) => {
+    res.locals.repoUrl = '';
+    res.locals.authorUrl = '';
+    res.locals.issuesUrl = '';
+    next();
+})
+
+
 app.use(express.json())
 app.use(expressLayout)
 app.set('view engine', 'ejs')
@@ -24,9 +33,6 @@ app.use(logger('dev'))
 
 app.use(router)
 
-app.get('/', (req, res) => {
-    res.render('index')
-    }) 
 
 
 export default (port = process.env.PORT || 3000) => {

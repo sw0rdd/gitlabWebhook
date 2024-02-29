@@ -1,4 +1,6 @@
-<h1>GitLab Issues Dashboard</h1>
+
+
+<h1>Dashboard</h1>
 <div id="issues-list">
     <% issues.forEach(function(issue) { %>
         <div class="issue" id="issue-<%= issue.iid %>">
@@ -7,7 +9,7 @@
             <p>Status: <span class="issue-status"><%= issue.state %></span></p>
             <p class="issue-author">Author: <%= issue.author.name %></p>
             <p class="issue-date">Created at: <%= issue.created_at %></p>
-            <p class="issue-date">Last updated at: <%= issue.updated_at %></p>
+            <p class="issue-update">Last updated at: <%= issue.updated_at %></p>
             <a href="<%= issue.web_url %>" class="issue-link" target="_blank">View it on GitLab</a>
 
 
@@ -20,7 +22,7 @@
                             <p class="comment-author"><%= comment.author.name %></p>
                             <p class="comment-body"><%= comment.body %></p>
                             <p class="comment-date">Created at: <%= comment.created_at %></p>
-                            <p class="comment-date">Last updated at: <%= comment.updated_at %></p>
+                            <p class="comment-update">Last updated at: <%= comment.updatedAt %></p>
                         </div>
                     <% }); %>
                 <% }%>

@@ -4,11 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <!-- <link rel="stylesheet" type="text/css" href="/css/test.css"> -->
     <title>B3</title>
 </head>
 <body>
     <%- include('../partials/header.ejs')%>
+
+    <nav class="navbar">
+        <ul>
+            <li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/issues">Dashboard</a></li>
+                <li><a href="<%= repoUrl %>" target="_blank">Repository</a></li>
+                <li><a href="<%= authorUrl %>" target="_blank">Author</a></li>
+                <li><a href="<%= issuesUrl %>" target="_blank">RepoIssues</a></li>
+            </li>
+        </ul>
+    </nav>
+    
+
     <div class="container">
         <%- body %>
     </div>
@@ -17,3 +30,5 @@
 <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
 <script src="main.js"></script>
 </html>
+
+

@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const isseuElement = document.getElementById(`issue-${data.object_attributes.iid}`)
             if (isseuElement) {
                 isseuElement.querySelector('.issue-status').textContent = data.object_attributes.state;
-                isseuElement.querySelector('.issue-description').textContent = data.object_attributes.description;
+                isseuElement.querySelector('.issue-description').textContent = `Description: ${data.object_attributes.description}`
                 isseuElement.querySelector('.issue-title').textContent = data.object_attributes.title;
                 
                 // updated at
@@ -117,11 +117,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         const issueElement = document.getElementById(`issue-${data.issue.iid}`)
         if (issueElement) {
-            const commentContainer = document.querySelector('.issue-comments')
+            const commentContainer = issueElement.querySelector('.issue-comments')
 
             const newCommentELement = document.createElement('div');
             newCommentELement.id = `comment-${data.object_attributes.id}`;
-            newCommentELement.classList.add('comment');
+            newCommentELement.classList.add('comment-element');
 
             const commentAuthor = document.createElement('p');
             commentAuthor.classList.add('comment-author');
@@ -167,6 +167,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             } else {
                 commentContainer.appendChild(newCommentELement)
             }
+
+            const issueUpdateDate = issueElement.querySelector('.issue-update');
+            issueUpdateDate.textContent = `Last updated at: ${formattedUpdateDate}`
+
 
         } else {
             console.log('No issue found for IID:', data.issue.iid);
