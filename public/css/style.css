@@ -2,15 +2,14 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #f4f4f4;
     font-family: Arial, sans-serif;
-    margin: 0;
     padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
 }
 
 .container {
     flex: 1; 
-    margin: 10px;
 }
 
 footer {
@@ -25,4 +24,49 @@ header {
     color: white;
     text-align: center;
     padding: 10px 0;
+}
+
+.issue {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.issue-title {
+    color: #007bff;
+}
+
+.issue-description {
+    font-size: 14px;
+}
+
+.issue-status {
+    font-weight: bold;
+}
+
+.issue-comments {
+    margin-top: 10px;
+}
+
+
+.comment {
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.comment-author {
+    font-weight: bold;
+}
+
+.comment-body {
+    margin-top: 5px;
+}
+
+.comment-date {
+    margin-top: 5px;
+    font-size: 0.8rem;
+    color: #666;
 }
