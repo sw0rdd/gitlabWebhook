@@ -10,11 +10,6 @@ const gitlabToken = process.env.TOKEN
 const projectID = process.env.PROJECT_ID
 
 
-export const homePage = (req, res) => {
-    res.render('index')
-}
-
-
 
 export const gitlabWebhook = (req, res) => {
     const secretToken = req.headers['x-gitlab-token'];
@@ -51,7 +46,6 @@ const fetchCommentforIssue = async (projectID, issueIid) => {
     const notes = await response.json();
     
     const userNote = notes.filter(note => note.system === false).map(note => {
-        console.log(note.created_at, note.updated_at)
         return {
             ...note,
             created_at: format(new Date(note.created_at), 'yyyy-MM-dd HH:mm:ss'),
@@ -101,7 +95,6 @@ export const listIssuesWithComments = async (req, res) => {
             issue.updated_at = format(new Date(issue.updated_at), 'yyyy-MM-dd HH:mm:ss')
         }
 
-        console.log(issues)
         res.render('issues', { issues })
 
 

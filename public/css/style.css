@@ -17,6 +17,62 @@ body {
     overflow: hidden;
 }
 
+
+.header_container {
+    background-color: #744aff;
+    text-align: center;
+    padding: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+header h1 {
+    font-size: 2.5em;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #f4f4f4;
+}
+
+header p {
+    font-size: 1.8em;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.corner-button a {
+    display: inline-block;
+    color: white;
+    padding: 10px 20px; 
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s; 
+}
+
+
+.login-out-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login-button a {
+    background-color: #4CAF50;
+    margin-left: 10px;
+}
+
+.logout-button a {
+    background-color: #f44336;
+}
+.register-button a {
+    background-color: #4CAF50;
+}
+
+
 footer {
     background-color: #333;
     color: white;
@@ -24,12 +80,6 @@ footer {
     padding: 10px 0;
 }
 
-header {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-}
 
 
 /* Issues list styling */
@@ -171,4 +221,19 @@ header {
 
 .footer_nav li {
     float: left;
+}
+
+
+.register-button a:hover {
+    background-color: #45a049;
+}
+
+
+.login-button a:hover {
+    background-color: #45a049;
+}
+
+
+.logout-button a:hover {
+    background-color: #562b28;
 }

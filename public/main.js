@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const socket = io();
 
     socket.on('issue-event', (data) => {
-        // console.log('Issue event received: ', data)
         
         if (data.object_kind === 'issue' && data.object_attributes) {
             console.log(data.object_attributes)

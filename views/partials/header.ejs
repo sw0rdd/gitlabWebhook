@@ -1,3 +1,39 @@
-<header>
-    This just a header
-</header>
+<div class="header_container">
+
+    <header>
+        <% if (user) { %>
+            <h1>Welcome <%= user.username  %>! </h1>
+        <% } else { %>
+            <h1>Welcome!</h1>
+        <% } %>
+    </header>
+
+    <div class="login-out-actions">
+        <% if (!user) { %>
+            <div class="register-button corner-button">
+                <a href="/users/register">Register</a>
+            </div>
+
+            <div class="login-button corner-button" >
+                <a href="/users/login">Login</a>
+
+            </div>
+            
+            <% } else { %>
+                <div class="logout-button corner-button">
+                    <a href="/users/logout">Logout</a>
+                </div>
+        <% } %>
+    </div>
+
+
+</div>
+
+
+<nav class="navbar">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/issues">Dashboard</a></li>
+    </ul>
+</nav>
+

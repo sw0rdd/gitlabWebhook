@@ -1,0 +1,23 @@
+<!-- register.ejs -->
+<div class="auth-container">
+    <div class="auth-form">
+        <h2>Register</h2>
+        <% if (messages.error) { %>
+            <% messages.error.forEach(function(message) { %>
+                <div class="alert alert-danger"><%= message %></div>
+            <% }); %>
+        <% } %>
+        <form action="/users/register" method="POST">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <!-- Include additional fields as necessary -->
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</div>
