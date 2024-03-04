@@ -13,12 +13,15 @@ const projectID = process.env.PROJECT_ID
 
 export const gitlabWebhook = (req, res) => {
     const secretToken = req.headers['x-gitlab-token'];
+    console.log(secretToken, gitlabToken)
 
     if(secretToken !== gitlabToken) {
+        console.log('Unauthorized')
         return res.status(401).send('Unathorized')
     }
 
     const eventData = req.body;
+    console.log(eventData);
     const io = getIo();
 
     if (eventData.object_kind === 'issue') {
@@ -32,7 +35,7 @@ export const gitlabWebhook = (req, res) => {
 }
 
 
-const fetchCommentforIssue = async (projectID, issueIid) => {
+const fetchCommentsforIssue = async (projectID, issueIid) => {
     const response = await fetch(`https://gitlab.lnu.se/api/v4/projects/${projectID}/issues/${issueIid}/notes`, {
         headers: {
             'Authorization': `Bearer ${gitlabToken}`
@@ -72,11 +75,29 @@ const fetchIssues = async () => {
     return await response.json();
 };
 
+
+// just fetch comments for issue id within projekt id 
+export const fetchCommentsforIssueId = async (req, res) => {
+    try {
+        const { issueId } = req.params;
+        const comments = await fetchCommentsforIssue(projectID, issueId);
+
+        res.json(comments);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Failed to fetch comments for the specific issue');
+    }
+}
+
+
+
+
+// fetches the issues for a project and renders issues 
 export const listIssuesWithComments = async (req, res) => {
     try {
         const issues = await fetchIssues();
 
-        // settings some info in res.locals for global templete access
+        // settings some info in res.locals for global template access
         if (issues.length > 0) {
             res.locals.repoUrl = issues[0].web_url.split('/-/')[0];
             res.locals.authorUrl = issues[0].author.web_url;
@@ -87,18 +108,13 @@ export const listIssuesWithComments = async (req, res) => {
             res.locals.issuesUrl = '';
         }
 
-        for (const issue of issues) {
-            issue.comments = await fetchCommentforIssue(issue.project_id, issue.iid)
+        // Date formatting for issues (keep this part)
+        issues.forEach(issue => {
+            issue.created_at = format(new Date(issue.created_at), 'yyyy-MM-dd HH:mm:ss');
+            issue.updated_at = format(new Date(issue.updated_at), 'yyyy-MM-dd HH:mm:ss');
+        });
 
-            // date formatting
-            issue.created_at = format(new Date(issue.created_at), 'yyyy-MM-dd HH:mm:ss')
-            issue.updated_at = format(new Date(issue.updated_at), 'yyyy-MM-dd HH:mm:ss')
-        }
-
-        res.render('issues', { issues })
-
-
-
+        res.render('issues', { issues });
     } catch (error) {
         console.error(error);
         res.status(500).send('Failed to fetch issues for the specific repository');

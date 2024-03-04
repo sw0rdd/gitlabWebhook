@@ -1,16 +1,13 @@
-
-
-<nav class="navbar" class="issues-navbar">
-    <ul>
-        <li>
-            <li><a href="<%= repoUrl %>" target="_blank">Repository</a></li>
-            <li><a href="<%= authorUrl %>" target="_blank">Author</a></li>
-            <li><a href="<%= issuesUrl %>" target="_blank">RepoIssues</a></li>
-        </li>
-    </ul>
-</nav>
-
 <h1>Dashboard</h1>
+
+<div class="issues-navbar">
+    <a href="<%= repoUrl %>" target="_blank">Repository</a>
+    <a href="<%= authorUrl %>" target="_blank">Author</a>
+    <a href="<%= issuesUrl %>" target="_blank">RepoIssues</a>
+</div>
+
+
+
 <div id="issues-list">
     <% issues.forEach(function(issue) { %>
         <div class="issue" id="issue-<%= issue.iid %>">
@@ -20,23 +17,19 @@
             <p class="issue-author">Author: <%= issue.author.name %></p>
             <p class="issue-date">Created at: <%= issue.created_at %></p>
             <p class="issue-update">Last updated at: <%= issue.updated_at %></p>
-            <a href="<%= issue.web_url %>" class="issue-link" target="_blank">View it on GitLab</a>
+            <a href="<%= issue.web_url %>" class="issue-button issue-link" target="_blank">View it on GitLab</a>
+            <button class="issue-button view-comments" data-issue-id="<%= issue.iid %>">Show comments</button>
 
-
-
-            <div class="issue-comments">
+            <!-- The div for the all the comments of one speceifc issues -->
+            <div class="issue-comments" style="display: none;">
                 <h3>Comments</h3>
-                <% if(issue.comments && issue.comments.length > 0) { %>
-                    <% issue.comments.forEach(function(comment) { %>
-                        <div class="comment-element" id="comment <%= comment.id %>">
-                            <p class="comment-author"><%= comment.author.name %></p>
-                            <p class="comment-body"><%= comment.body %></p>
-                            <p class="comment-date">Created at: <%= comment.created_at %></p>
-                            <p class="comment-update">Last updated at: <%= comment.updatedAt %></p>
-                        </div>
-                    <% }); %>
-                <% }%>
+                <!-- placeholder for new comments -->
             </div>
+
+
+
+
+
         </div>
     <% }); %>
 </div>

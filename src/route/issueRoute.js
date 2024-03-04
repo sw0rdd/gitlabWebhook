@@ -18,7 +18,9 @@ function isAuthenticated (req, res, next) {
     if (req.session.user) {
       return next()
     }
-    res.status(403).send('You are not authorized to access this page FORBIDDEN')
+    req.session.orignalUrl = req.originalUrl;
+    req.flash('error', 'You need to be logged in to access this page')
+    res.redirect('users/login')
 }
 
 
@@ -26,5 +28,6 @@ router.get('/', isAuthenticated  ,controller.listIssuesWithComments) // list spe
 
 router.post('/gitlab-webhook', controller.gitlabWebhook) // gitlab webhook
 
+router.get('/comments/:issueId', isAuthenticated, controller.fetchCommentsforIssueId) // get comments for a specific issue
 
 export default router

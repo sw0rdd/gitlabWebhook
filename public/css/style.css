@@ -72,6 +72,14 @@ header p {
     background-color: #4CAF50;
 }
 
+.register-on-login {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
 
 footer {
     background-color: #333;
@@ -143,8 +151,8 @@ footer {
     color: #999;
 }
 
-/* Link to GitLab */
-.issue-link {
+.issue-link, .issue-button {
+    font-size: 16px; 
     display: inline-block;
     margin-top: 10px;
     background-color: #007bff;
@@ -152,18 +160,43 @@ footer {
     padding: 10px 15px;
     text-decoration: none;
     border-radius: 5px;
+    border: none; 
+    box-sizing: border-box; 
+    line-height: 1.5; 
 }
 
-.issue-link:hover {
+.issue-link:hover, .issue-button:hover {
     background-color: #0056b3;
 }
+
+
+.issue-button {
+    cursor: pointer;
+    outline: none;
+}
+
 
 
 
 /* nav and footer */
 
 .issues-navbar {
+    display: flex;
+    flex-direction: row;
     margin-top: 10px;
+    justify-content: space-around; /* Adjust this or use padding on the <a> tags for spacing */
+    background-color: yellow;
+}
+
+.issues-navbar a {
+    display: inline-block;
+    padding: 10px; /* Adds padding around links for better spacing */
+    text-decoration: none; /* Optional: Removes the underline from links */
+    color: #000; /* Optional: Sets the text color */
+}
+
+.issues-navbar a:hover {
+    background-color: #f0f0f0; /* Optional: Adds a grey background color on hover */
 }
 
 .navbar ul {
@@ -236,4 +269,18 @@ footer {
 
 .logout-button a:hover {
     background-color: #562b28;
+}
+
+
+
+/* flash messages */
+
+
+.authentication-error {
+    padding: 10px;
+    background-color: f44336;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }

@@ -81,7 +81,11 @@ export const handleLogin = async (req, res) => {
           req.flash('error', 'An error occurred during login.')
           return res.redirect('/users/login')
         }
-        return res.redirect('/')
+
+        const redirectUrl = req.session.orignalUrl || '/';
+        delete req.session.orignalUrl;
+        return res.redirect(redirectUrl)
+
       })
     } else {
       req.flash('error', 'Invalid username or passWord')
