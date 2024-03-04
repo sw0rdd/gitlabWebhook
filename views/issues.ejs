@@ -1,19 +1,19 @@
 <h1>Dashboard</h1>
 
-<div class="issues-navbar">
-    <a href="<%= repoUrl %>" target="_blank">Repository</a>
-    <a href="<%= authorUrl %>" target="_blank">Author</a>
-    <a href="<%= issuesUrl %>" target="_blank">RepoIssues</a>
-</div>
-
-
 
 <div id="issues-list">
     <% issues.forEach(function(issue) { %>
         <div class="issue" id="issue-<%= issue.iid %>">
             <h2 class="issue-title"><%= issue.title %></h2>
             <p class="issue-description">Description: <%= issue.description %></p>
-            <p>Status: <span class="issue-status"><%= issue.state %></span></p>
+
+            <% if(issue.state === 'opened') { %>
+                <p>Status: <span class="issue-status status-open"><%= issue.state %></span></p>
+            <% } else { %>
+                <p>Status: <span class="issue-status status-closed"><%= issue.state %></span></p>
+            <% } %>
+
+
             <p class="issue-author">Author: <%= issue.author.name %></p>
             <p class="issue-date">Created at: <%= issue.created_at %></p>
             <p class="issue-update">Last updated at: <%= issue.updated_at %></p>

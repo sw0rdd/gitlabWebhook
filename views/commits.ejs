@@ -1,0 +1,14 @@
+<h1>Commits</h1>
+
+<div id="commits-list">
+    <% commits.forEach(function(commit) { %>
+        <div class="commit" id="commit-<%= commit.id %>">
+            <h2 class="commit-title"><%= commit.title %></h2>
+            <p class="commit-message">Message: <%= commit.message %></p>
+            <p class="commit-author">Author: <%= commit.author_name %></p>
+            <p class="commit-date">Created at: <%= commit.created_at %></p>
+            <a href="<%= commit.web_url %>" class="commit-link" target="_blank">View it on GitLab</a>
+        </div>
+    <% }); %>
+</div>
+

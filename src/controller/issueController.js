@@ -13,25 +13,35 @@ const projectID = process.env.PROJECT_ID
 
 export const gitlabWebhook = (req, res) => {
     const secretToken = req.headers['x-gitlab-token'];
-    console.log(secretToken, gitlabToken)
+    const xGitlabEvent = req.headers['x-gitlab-event'];
+    console.log('xGitlabEvent', xGitlabEvent)
 
     if(secretToken !== gitlabToken) {
-        console.log('Unauthorized')
         return res.status(401).send('Unathorized')
     }
 
     const eventData = req.body;
-    console.log(eventData);
     const io = getIo();
 
-    if (eventData.object_kind === 'issue') {
-        io.emit('issue-event', eventData)
+    if(xGitlabEvent === 'Issue Hook') {
+        io.emit('issue-event', eventData);
         res.status(200).send('webhook received');
 
-    } else if (eventData.object_kind === 'note') {
-        io.emit('comment-event', eventData)
+    } else if(xGitlabEvent === 'Note Hook') {
+        io.emit('comment-event', eventData);
         res.status(200).send('webhook received');
+
+    } else if(xGitlabEvent === 'Push Hook') {
+        if (eventData.commits && eventData.commits.length > 0) {
+            eventData.commits.forEach(commit => {
+                io.emit('commit-event', commit);
+            })
+        }
+        res.status(200).send('webhook received');
+    } else {
+        res.status(400).send('Unsupported event');
     }
+
 }
 
 

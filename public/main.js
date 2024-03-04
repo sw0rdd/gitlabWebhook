@@ -20,6 +20,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const isseuElement = document.getElementById(`issue-${data.object_attributes.iid}`)
             if (isseuElement) {
                 isseuElement.querySelector('.issue-status').textContent = data.object_attributes.state;
+
+                if (data.object_attributes.state === 'closed') {
+                    isseuElement.querySelector('.issue-status').classList.remove('status-opened');
+                    isseuElement.querySelector('.issue-status').classList.add('status-closed');
+                } else {
+                    isseuElement.querySelector('.issue-status').classList.remove('status-closed');
+                    isseuElement.querySelector('.issue-status').classList.add('status-open');
+                }
+
                 isseuElement.querySelector('.issue-description').textContent = `Description: ${data.object_attributes.description}`
                 isseuElement.querySelector('.issue-title').textContent = data.object_attributes.title;
                 
@@ -46,6 +55,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 const issueStatusSpan = document.createElement('span');
                 issueStatusSpan.classList.add('issue-status');
                 issueStatusSpan.textContent = data.object_attributes.state;
+
+                if (data.object_attributes.state === 'closed') {
+                    issueStatusSpan.classList.add('status-closed');
+                } else {
+                    issueStatusSpan.classList.add('status-open');
+                }
 
                 const issueStatus = document.createElement('p');
                 issueStatus.textContent = 'Status: ';
@@ -84,6 +99,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 const newCommentContainer = document.createElement('div');
                 newCommentContainer.classList.add('issue-comments');
+                newCommentContainer.style.display = 'none';
 
                 const commentsTitle = document.createElement('h3');
                 commentsTitle.textContent = 'Comments';
@@ -92,12 +108,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 const issueLink = document.createElement('a');
                 issueLink.href = data.object_attributes.url;
                 issueLink.textContent = 'View it on GitLab';
-                issueLink.classList.add('issue-button issue-link');
+                issueLink.classList.add('issue-button');
+                issueLink.classList.add('issue-link');
                 issueLink.target = '_blank';
 
                 const viewCommentsButton = document.createElement('button');
-                viewCommentsButton.classList.add('issue-button view-comments');
-                viewCommentsButton.textContent = 'View Comments';
+                viewCommentsButton.textContent = 'Show comments';
+                viewCommentsButton.classList.add('issue-button');
+                viewCommentsButton.classList.add('view-comments');
                 viewCommentsButton.setAttribute('data-issue-id', data.object_attributes.iid);
 
                 attachCommentButtonListener(viewCommentsButton)
@@ -124,76 +142,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
         
     })
-
-
-    socket.on('comment-event', (data) => {
-        console.log('Comment event received: ', data)
-
-        const issueElement = document.getElementById(`issue-${data.issue.iid}`)
-
-        if (issueElement && issueElement.querySelector('.issue-comments').style.display !== 'none') {
-
-            const commentContainer = issueElement.querySelector('.issue-comments')
-    
-            const newCommentELement = document.createElement('div');
-            newCommentELement.id = `comment-${data.object_attributes.id}`;
-            newCommentELement.classList.add('comment-element');
-    
-            const commentAuthor = document.createElement('p');
-            commentAuthor.classList.add('comment-author');
-            commentAuthor.textContent = data.user.name;
-    
-            const commentBody = document.createElement('p');
-            commentBody.classList.add('comment-body');
-            commentBody.textContent = data.object_attributes.note;
-    
-            const commentDate = document.createElement('p');
-            commentDate.classList.add('comment-date');
-    
-            const newDate = new Date(data.object_attributes.created_at);
-            const formattedDate = newDate.getFullYear() + '-' +
-            ('0' + (newDate.getMonth() + 1)).slice(-2) + '-' +
-            ('0' + newDate.getDate()).slice(-2) + ' ' +
-            ('0' + newDate.getHours()).slice(-2) + ':' +
-            ('0' + newDate.getMinutes()).slice(-2) + ':' +
-            ('0' + newDate.getSeconds()).slice(-2);
-    
-            commentDate.textContent = `Created at: ${formattedDate}`
-    
-            const updateDate = document.createElement('p');
-            updateDate.classList.add('comment-date');
-    
-            const newUpdateDate = new Date(data.object_attributes.updated_at);
-            const formattedUpdateDate = newUpdateDate.getFullYear() + '-' +
-            ('0' + (newUpdateDate.getMonth() + 1)).slice(-2) + '-' +
-            ('0' + newUpdateDate.getDate()).slice(-2) + ' ' +
-            ('0' + newUpdateDate.getHours()).slice(-2) + ':' +
-            ('0' + newUpdateDate.getMinutes()).slice(-2) + ':' +
-            ('0' + newUpdateDate.getSeconds()).slice(-2);
-    
-            updateDate.textContent = `Last updated at: ${formattedUpdateDate}`
-    
-            newCommentELement.appendChild(commentAuthor);
-            newCommentELement.appendChild(commentBody);
-            newCommentELement.appendChild(commentDate);
-            newCommentELement.appendChild(updateDate);
-    
-            if (commentContainer.children[1]) {
-                commentContainer.insertBefore(newCommentELement, commentContainer.children[1])
-            } else {
-                commentContainer.appendChild(newCommentELement)
-            }
-    
-            const issueUpdateDate = issueElement.querySelector('.issue-update');
-            issueUpdateDate.textContent = `Last updated at: ${formattedUpdateDate}`
-        } else {
-            console.log('No issue found for IID:', data.issue.iid);
-            return;
-        }
-    })
-
-
-
 
 
     function attachCommentButtonListener(button) {
@@ -266,6 +214,123 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         })
     }
+
+
+    socket.on('comment-event', (data) => {
+        console.log('Comment event received: ', data)
+
+        const issueElement = document.getElementById(`issue-${data.issue.iid}`)
+
+        if (issueElement && issueElement.querySelector('.issue-comments').style.display !== 'none') {
+
+            const commentContainer = issueElement.querySelector('.issue-comments')
+    
+            const newCommentELement = document.createElement('div');
+            newCommentELement.id = `comment-${data.object_attributes.id}`;
+            newCommentELement.classList.add('comment-element');
+    
+            const commentAuthor = document.createElement('p');
+            commentAuthor.classList.add('comment-author');
+            commentAuthor.textContent = data.user.name;
+    
+            const commentBody = document.createElement('p');
+            commentBody.classList.add('comment-body');
+            commentBody.textContent = data.object_attributes.note;
+    
+            const commentDate = document.createElement('p');
+            commentDate.classList.add('comment-date');
+    
+            const newDate = new Date(data.object_attributes.created_at);
+            const formattedDate = newDate.getFullYear() + '-' +
+            ('0' + (newDate.getMonth() + 1)).slice(-2) + '-' +
+            ('0' + newDate.getDate()).slice(-2) + ' ' +
+            ('0' + newDate.getHours()).slice(-2) + ':' +
+            ('0' + newDate.getMinutes()).slice(-2) + ':' +
+            ('0' + newDate.getSeconds()).slice(-2);
+    
+            commentDate.textContent = `Created at: ${formattedDate}`
+    
+            const updateDate = document.createElement('p');
+            updateDate.classList.add('comment-date');
+    
+            const newUpdateDate = new Date(data.object_attributes.updated_at);
+            const formattedUpdateDate = newUpdateDate.getFullYear() + '-' +
+            ('0' + (newUpdateDate.getMonth() + 1)).slice(-2) + '-' +
+            ('0' + newUpdateDate.getDate()).slice(-2) + ' ' +
+            ('0' + newUpdateDate.getHours()).slice(-2) + ':' +
+            ('0' + newUpdateDate.getMinutes()).slice(-2) + ':' +
+            ('0' + newUpdateDate.getSeconds()).slice(-2);
+    
+            updateDate.textContent = `Last updated at: ${formattedUpdateDate}`
+    
+            newCommentELement.appendChild(commentAuthor);
+            newCommentELement.appendChild(commentBody);
+            newCommentELement.appendChild(commentDate);
+            newCommentELement.appendChild(updateDate);
+    
+            if (commentContainer.children[1]) {
+                commentContainer.insertBefore(newCommentELement, commentContainer.children[1])
+            } else {
+                commentContainer.appendChild(newCommentELement)
+            }
+    
+            const issueUpdateDate = issueElement.querySelector('.issue-update');
+            issueUpdateDate.textContent = `Last updated at: ${formattedUpdateDate}`
+        } else {
+            console.log('No issue found for IID:', data.issue.iid);
+            return;
+        }
+    })
+
+
+    socket.on('commit-event', (data) => {
+        const commitsList = document.getElementById('commits-list');
+
+        const commitElement = document.createElement('div');
+        commitElement.classList.add('commit');
+        commitElement.id = `commit-${data.id}`;
+
+        const commitTitle = document.createElement('h2');
+        commitTitle.classList.add('commit-title');
+        commitTitle.textContent = data.title;
+
+        const commitMessage = document.createElement('p');
+        commitMessage.classList.add('commit-message');
+        commitMessage.textContent = `Message: ${data.message}`;
+
+        const commitAuthor = document.createElement('p');
+        commitAuthor.classList.add('commit-author');
+        commitAuthor.textContent = `Author: ${data.author.name}`;
+
+        const commitDate = document.createElement('p');
+        commitDate.classList.add('commit-date');
+        commitDate.textContent = `Date: ${data.timestamp}`;
+
+        const commitLink = document.createElement('a');
+        commitLink.href = data.url;
+        commitLink.textContent = 'View it on GitLab';
+        commitLink.classList.add('commit-link');
+        commitLink.target = '_blank';
+
+        commitElement.appendChild(commitTitle);
+        commitElement.appendChild(commitMessage);
+        commitElement.appendChild(commitAuthor);
+        commitElement.appendChild(commitDate);
+        commitElement.appendChild(commitLink);
+
+        if (commitsList.children[0]) {
+            commitsList.insertBefore(commitElement, commitsList.children[0])
+        } else {
+            commitsList.appendChild(commitElement)
+        }
+    })
+
+
+
+
+
+
+
 
     
 })

@@ -10,6 +10,7 @@ import mongoose from 'mongoose'
 
 import userRouter from './route/userRoute.js'
 import issuerouter from './route/issueRoute.js'
+import commitsRouter from './route/commitsRoute.js'
 
 dotenv.config()
 
@@ -62,6 +63,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use('/issues', issuerouter)
 app.use('/users', userRouter)
+app.use('/commits', commitsRouter)
 
 app.get('/', (req, res) => {
     res.render('index')

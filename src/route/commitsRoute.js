@@ -2,7 +2,8 @@ import express from 'express'
 
 const router = express.Router()
 
-import * as controller from '../controller/issueController.js'
+
+import * as controller from '../controller/commitsController.js'
 
 
 /**
@@ -24,10 +25,6 @@ function isAuthenticated (req, res, next) {
 }
 
 
-router.get('/', isAuthenticated  ,controller.listIssuesWithComments) // list specific repository issues
-
-router.post('/gitlab-webhook', controller.gitlabWebhook) // gitlab webhook
-
-router.get('/comments/:issueId', isAuthenticated, controller.fetchCommentsforIssueId) // get comments for a specific issue
+router.get('/', isAuthenticated, controller.listCommits) // list commits for a specific repository
 
 export default router
