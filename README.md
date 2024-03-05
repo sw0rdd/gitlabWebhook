@@ -28,8 +28,8 @@ In this demo you will be able to run the application on localhost
 ### Clone the repo 
 
 ```
-git clone git@gitlab.lnu.se:1dv528/student/sy222ea/b2-crud.git
-cd b2-crud
+git clone git@gitlab.lnu.se:1dv528/student/sy222ea/b3-production.git
+cd b3-production
 ```
 <br>
 
