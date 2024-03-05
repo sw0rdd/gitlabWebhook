@@ -1,7 +1,5 @@
-import express from 'express'
 import dotenv from 'dotenv'
 import fetch from 'node-fetch'
-import { getIo } from '../socket.js'
 import { format } from 'date-fns'
 
 dotenv.config()
@@ -9,40 +7,6 @@ dotenv.config()
 const gitlabToken = process.env.TOKEN
 const projectID = process.env.PROJECT_ID
 
-
-
-export const gitlabWebhook = (req, res) => {
-    const secretToken = req.headers['x-gitlab-token'];
-    const xGitlabEvent = req.headers['x-gitlab-event'];
-    console.log('xGitlabEvent', xGitlabEvent)
-
-    if(secretToken !== gitlabToken) {
-        return res.status(401).send('Unathorized')
-    }
-
-    const eventData = req.body;
-    const io = getIo();
-
-    if(xGitlabEvent === 'Issue Hook') {
-        io.emit('issue-event', eventData);
-        res.status(200).send('webhook received');
-
-    } else if(xGitlabEvent === 'Note Hook') {
-        io.emit('comment-event', eventData);
-        res.status(200).send('webhook received');
-
-    } else if(xGitlabEvent === 'Push Hook') {
-        if (eventData.commits && eventData.commits.length > 0) {
-            eventData.commits.forEach(commit => {
-                io.emit('commit-event', commit);
-            })
-        }
-        res.status(200).send('webhook received');
-    } else {
-        res.status(400).send('Unsupported event');
-    }
-
-}
 
 
 const fetchCommentsforIssue = async (projectID, issueIid) => {
@@ -92,7 +56,7 @@ export const fetchCommentsforIssueId = async (req, res) => {
         const { issueId } = req.params;
         const comments = await fetchCommentsforIssue(projectID, issueId);
 
-        res.json(comments);
+        res.json(comments); 
     } catch (error) {
         console.error(error);
         res.status(500).send('Failed to fetch comments for the specific issue');

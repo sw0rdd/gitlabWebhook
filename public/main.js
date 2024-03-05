@@ -304,7 +304,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         const commitDate = document.createElement('p');
         commitDate.classList.add('commit-date');
-        commitDate.textContent = `Date: ${data.timestamp}`;
+        
+        const newCommitDate = new Date(data.timestamp);
+        const formattedDate = newCommitDate.getFullYear() + '-' +
+        ('0' + (newCommitDate.getMonth() + 1)).slice(-2) + '-' +
+        ('0' + newCommitDate.getDate()).slice(-2) + ' ' +
+        ('0' + newCommitDate.getHours()).slice(-2) + ':' +
+        ('0' + newCommitDate.getMinutes()).slice(-2) + ':' +
+        ('0' + newCommitDate.getSeconds()).slice(-2);
+        
+        commitDate.textContent = `Created at: ${formattedDate}`;
 
         const commitLink = document.createElement('a');
         commitLink.href = data.url;

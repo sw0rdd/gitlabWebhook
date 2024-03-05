@@ -1,7 +1,8 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import fetch from 'node-fetch'
-import { getIo } from '../socket.js'
+import { format } from 'date-fns'
+
 
 dotenv.config()
 
@@ -21,6 +22,10 @@ export const listCommits = async (req, res) => {
     }
 
     const commits = await response.json();
+
+    commits.forEach(commit => {
+        commit.created_at = format(new Date(commit.created_at), 'yyyy-MM-dd HH:mm:ss');
+    });
 
     res.render('commits', { commits });
 }

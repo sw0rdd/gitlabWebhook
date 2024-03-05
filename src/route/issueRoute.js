@@ -26,8 +26,6 @@ function isAuthenticated (req, res, next) {
 
 router.get('/', isAuthenticated  ,controller.listIssuesWithComments) // list specific repository issues
 
-router.post('/gitlab-webhook', controller.gitlabWebhook) // gitlab webhook
-
 router.get('/comments/:issueId', isAuthenticated, controller.fetchCommentsforIssueId) // get comments for a specific issue
 
 export default router

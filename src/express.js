@@ -12,6 +12,8 @@ import userRouter from './route/userRoute.js'
 import issuerouter from './route/issueRoute.js'
 import commitsRouter from './route/commitsRoute.js'
 
+import handleHook  from './controller/webhookController.js'
+
 dotenv.config()
 
 
@@ -68,6 +70,11 @@ app.use('/commits', commitsRouter)
 app.get('/', (req, res) => {
     res.render('index')
 })
+
+
+app.post('/gitlab-webhook', handleHook) // gitlab webhook)
+
+
 
 
 
