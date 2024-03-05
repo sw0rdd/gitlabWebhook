@@ -95,5 +95,40 @@ export const listIssuesWithComments = async (req, res) => {
     }
 }
 
+export const closeIssue = async (req, res) => {
+    const issueId = req.params.issueId;
+    try {
+        await fetch(`https://gitlab.lnu.se/api/v4/projects/${projectID}/issues/${issueId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${gitlabToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ state_event: 'close' })
+        });
+        res.send('Issue closed successfully');
+    } catch (error) {
+        console.error('Failed to close the issue', error);
+        res.status(500).send('Failed to close the issue');
+    }
+}
 
+
+export const reopenIssue = async (req, res) => {
+    const issueId = req.params.issueId;
+    try {
+        await fetch(`https://gitlab.lnu.se/api/v4/projects/${projectID}/issues/${issueId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${gitlabToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ state_event: 'reopen' })
+        });
+        res.send('Issue reopened successfully');
+    } catch (error) {
+        console.error('Failed to reopen the issue', error);
+        res.status(500).send('Failed to reopen the issue');
+    }
+}
 

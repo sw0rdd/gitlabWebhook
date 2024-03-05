@@ -2,12 +2,25 @@
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
+    // view comments buttons
     const commentButtons = document.querySelectorAll('.view-comments');
     commentButtons.forEach(button => {
         attachCommentButtonListener(button)
     })
 
 
+    // close and reopen issue buttons
+    document.querySelectorAll('.close-issue, .reopen-issue').forEach(button => {
+        button.addEventListener('click', function() {
+            const issueId = this.getAttribute('data-issue-id');
+            if (this.classList.contains('close-issue')) {
+                closeIssue(issueId);
+            } else if (this.classList.contains('reopen-issue')) {
+                reopenIssue(issueId);
+            }
+        });
+    });
+    
 
     const socket = io();
 
@@ -120,7 +133,35 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 attachCommentButtonListener(viewCommentsButton)
 
+                const closeIssueButton = document.createElement('button');
+                closeIssueButton.textContent = 'Close issue';
+                closeIssueButton.classList.add('issue-button');
+                closeIssueButton.classList.add('close-issue');
+                closeIssueButton.setAttribute('data-issue-id', data.object_attributes.iid);
 
+                if (data.object_attributes.state === 'closed') {
+                    closeIssueButton.style.display = 'none';
+                }
+
+                closeIssueButton.addEventListener('click', function() {
+                    closeIssue(this.getAttribute('data-issue-id'))
+                })
+
+                const reopenIssueButton = document.createElement('button');
+                reopenIssueButton.textContent = 'Reopen issue';
+                reopenIssueButton.classList.add('issue-button');
+                reopenIssueButton.classList.add('reopen-issue');
+                reopenIssueButton.setAttribute('data-issue-id', data.object_attributes.iid);
+
+                if (data.object_attributes.state === 'opened') {
+                    reopenIssueButton.style.display = 'none';
+                }
+
+                reopenIssueButton.addEventListener('click', function() {
+                    reopenIssue(this.getAttribute('data-issue-id'))
+                })
+
+                 
                 issueElemnt.appendChild(issueTitle);
                 issueElemnt.appendChild(issueDescription);
                 issueElemnt.appendChild(issueStatus);issueDate
@@ -129,6 +170,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 issueElemnt.appendChild(updateDate);
                 issueElemnt.appendChild(issueLink);
                 issueElemnt.appendChild(viewCommentsButton);
+                issueElemnt.appendChild(closeIssueButton);
+                issueElemnt.appendChild(reopenIssueButton);
                 issueElemnt.appendChild(newCommentContainer);
 
                 const issuesList = document.getElementById('issues-list');
@@ -335,8 +378,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
     })
 
 
+    const closeIssue = async (issueId) => {
+        try {
+            const response = await fetch(`/issues/close/${issueId}`, {method: 'POST'})
+            if (response.ok) {
+                document.querySelector(`#issue-${issueId} .close-issue`).style.display = 'none';
+                document.querySelector(`#issue-${issueId} .reopen-issue`).style.display = 'inline-block';
+            }
+        } catch (error) {
+            console.error('Failed to close the issue', error);
+        }
+    }
 
-
+    const reopenIssue = async (issueId) => {
+        try {
+            const response = await fetch(`/issues/reopen/${issueId}`, {method: 'POST'})
+            if (response.ok) {
+                document.querySelector(`#issue-${issueId} .reopen-issue`).style.display = 'none';
+                document.querySelector(`#issue-${issueId} .close-issue`).style.display = 'inline-block';
+            }
+        } catch (error) {
+            console.error('Failed to reopen the issue', error);
+        }
+    }
 
 
 

@@ -28,4 +28,8 @@ router.get('/', isAuthenticated  ,controller.listIssuesWithComments) // list spe
 
 router.get('/comments/:issueId', isAuthenticated, controller.fetchCommentsforIssueId) // get comments for a specific issue
 
+router.post('/close/:issueId', isAuthenticated, controller.closeIssue) // close a specific issue
+
+router.post('/reopen/:issueId', isAuthenticated, controller.reopenIssue) // open a specific issue
+
 export default router

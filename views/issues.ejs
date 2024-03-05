@@ -20,6 +20,10 @@
             <a href="<%= issue.web_url %>" class="issue-button issue-link" target="_blank">View it on GitLab</a>
             <button class="issue-button view-comments" data-issue-id="<%= issue.iid %>">Show comments</button>
 
+            <button class="issue-button close-issue" data-issue-id="<%= issue.iid %>" <% if(issue.state !== 'opened') { %> style="display:none;" <% } %>>Close Issue</button>
+            <button class="issue-button reopen-issue" data-issue-id="<%= issue.iid %>" <% if(issue.state === 'opened') { %> style="display:none;" <% } %>>Reopen Issue</button>
+
+
             <!-- The div for the all the comments of one speceifc issues -->
             <div class="issue-comments" style="display: none;">
                 <h3>Comments</h3>
