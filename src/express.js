@@ -73,7 +73,7 @@ app.get('/', (req, res) => {
 // Webhook route
 app.post(`/${process.env.WEBHOOK_ROUTE}`, handleHook)
 
-export default (port = process.env.PORT || 3000) => {
+export default (port = process.env.PORT || 5050) => {
   const httpServer = createServer(app)
   initIo(httpServer)
 

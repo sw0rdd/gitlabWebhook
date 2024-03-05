@@ -1,8 +1,18 @@
-/* General body styling */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Montserrat:ital,wght@0,500;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+
+/* font-family: 'Montserrat', sans-serif; */
+/* font-family: 'JetBrains Mono', monospace; */
+/* font-family: 'Montserrat', sans-serif; */
+
+
+
 body {
     display: flex;
     flex-direction: column;
-    font-family: 'Arial', sans-serif;
     background-color: #f0f2f5;
     margin: 0;
     padding: 0;
@@ -15,7 +25,9 @@ body {
     width: 80%;
     margin: auto;
     overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
 }
+
 
 
 .header_container {
@@ -26,6 +38,8 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
 }
 
 
@@ -174,6 +188,7 @@ header p {
     border: none; 
     box-sizing: border-box; 
     line-height: 1.5; 
+    font-family: 'Montserrat', sans-serif;
 }
 
 .issue-button {
@@ -222,8 +237,9 @@ header p {
 
 
 .navbar li a, .footer_nav li a {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Montserrat', sans-serif;
     font-size: 1.5em;
+    font-weight: 500;
 
 }
 .navbar a:hover {
@@ -280,4 +296,42 @@ header p {
     text-align: center;
     border-radius: 5px;
     margin-bottom: 20px;
+}
+
+.index-header {
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+.info {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+.info h2 {
+    color: #333;
+}
+
+.info ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.info ul li {
+    padding: 5px 0;
+    margin-left: 20px;
+    position: relative;
+}
+
+.info ul li:before {
+    content: "•";
+    color: #007bff; 
+    position: absolute;
+    left: -20px;
 }
