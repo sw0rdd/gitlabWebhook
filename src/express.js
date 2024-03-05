@@ -71,7 +71,7 @@ app.get('/', (req, res) => {
 })
 
 // Webhook route
-app.post(`/${process.env.WEBHOOK_ROUTE}`, handleHook)
+app.post('/gitlab-webhook', handleHook)
 
 export default (port = process.env.PORT || 5050) => {
   const httpServer = createServer(app)
