@@ -2,6 +2,7 @@
 
 
 <div id="issues-list">
+
     <% issues.forEach(function(issue) { %>
         <div class="issue" id="issue-<%= issue.iid %>">
             <h2 class="issue-title"><%= issue.title %></h2>
@@ -29,11 +30,6 @@
                 <h3>Comments</h3>
                 <!-- placeholder for new comments -->
             </div>
-
-
-
-
-
         </div>
     <% }); %>
 </div>

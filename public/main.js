@@ -35,10 +35,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
      * @param {object} data - issue data
      */
     socket.on('issue-event', (data) => {
-        
-        if (data.object_kind === 'issue' && data.object_attributes) {
-            console.log(data.object_attributes)
 
+        if (data.object_kind === 'issue' && data.object_attributes) {
 
             const isseuElement = document.getElementById(`issue-${data.object_attributes.iid}`)
             if (isseuElement) {
@@ -280,8 +278,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
      * @param {object} data - comment data, acutally extracted from a push event 
      */
     socket.on('comment-event', (data) => {
-        console.log('Comment event received: ', data)
-
         const issueElement = document.getElementById(`issue-${data.issue.iid}`)
 
         if (issueElement && issueElement.querySelector('.issue-comments').style.display !== 'none') {

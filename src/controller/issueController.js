@@ -66,6 +66,7 @@ export const fetchCommentsforIssueId = async (req, res) => {
  * @returns {Promise<Array>} - array of issues
  */
 const fetchIssues = async () => {
+    console.log('projectID', projectID)
     const response = await fetch(`https://gitlab.lnu.se/api/v4/projects/${projectID}/issues`, {
         headers: {
             'Authorization': `Bearer ${gitlabToken}`
