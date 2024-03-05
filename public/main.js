@@ -1,5 +1,8 @@
 
-
+/**
+ * This file contains the client side code for the application
+ * Listen for the DOMContentLoaded event
+ */
 document.addEventListener('DOMContentLoaded', (event) => {
 
     // view comments buttons
@@ -24,6 +27,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     const socket = io();
 
+
+    /**
+     * listen for issue events
+     * update some parts of the issue if it exists
+     * create a new issue if it does not exist
+     * @param {object} data - issue data
+     */
     socket.on('issue-event', (data) => {
         
         if (data.object_kind === 'issue' && data.object_attributes) {
@@ -187,6 +197,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     })
 
 
+    /**
+     * Attach a listener to the comment button
+     * @param {HTMLElement} button 
+     */
     function attachCommentButtonListener(button) {
 
         button.addEventListener('click', async function() {
@@ -259,6 +273,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
 
+    /**
+     * listen for comment events
+     * dynamically create and append a new comment to the issue
+     * update the last updated date of the issue
+     * @param {object} data - comment data, acutally extracted from a push event 
+     */
     socket.on('comment-event', (data) => {
         console.log('Comment event received: ', data)
 
@@ -326,6 +346,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     })
 
 
+    /**
+     * listen for commit events
+     * dynamically create and append a new commit to the commits list
+     * @param {object} data - commit data
+     */
     socket.on('commit-event', (data) => {
         const commitsList = document.getElementById('commits-list');
 
@@ -378,6 +403,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     })
 
 
+    /**
+     * send a request to the backend to close an issue
+     * from the backend a put request is sent to the GitLab API to close the issue
+     * @param {string} issueId - issue id
+     */
     const closeIssue = async (issueId) => {
         try {
             const response = await fetch(`/issues/close/${issueId}`, {method: 'POST'})
@@ -390,6 +420,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
+    /**
+     * send a request to the backend to reopen an issue
+     * from the backend a put request is sent to the GitLab API to reopen the issue
+     * @param {string} issueId - issue id
+     */
     const reopenIssue = async (issueId) => {
         try {
             const response = await fetch(`/issues/reopen/${issueId}`, {method: 'POST'})

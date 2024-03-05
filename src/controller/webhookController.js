@@ -8,6 +8,12 @@ dotenv.config()
 
 const gitlabToken = process.env.TOKEN
 
+/**
+ * This function is responsible for handling the webhook events from Gitlab.
+ * @param {object} req - request object
+ * @param {object} res - response object 
+ * @returns {object} - response object
+ */
 export const handleHook = (req, res) => {
     const secretToken = req.headers['x-gitlab-token'];
     const xGitlabEvent = req.headers['x-gitlab-event'];

@@ -4,12 +4,19 @@ import { format } from 'date-fns'
 
 dotenv.config()
 
+// environment variables
 const gitlabToken = process.env.TOKEN
 const projectID = process.env.PROJECT_ID
 
 
-
-const fetchCommentsforIssue = async (projectID, issueIid) => {
+/**
+ * utility function to fetch the comments for a specific issue
+ * updates the date format for the comments
+ * @param {string} projectID 
+ * @param {string} issueIid 
+ * @returns 
+ */
+const getCommentsForIssueFromAPI = async (projectID, issueIid) => {
     const response = await fetch(`https://gitlab.lnu.se/api/v4/projects/${projectID}/issues/${issueIid}/notes`, {
         headers: {
             'Authorization': `Bearer ${gitlabToken}`
@@ -35,6 +42,29 @@ const fetchCommentsforIssue = async (projectID, issueIid) => {
 
 
 
+
+/**
+ * express route handler that provides an endpoint for the frontend to fetch comments for a specific issue
+ * @param {object} req - request object
+ * @param {object} res - response object
+*/
+export const fetchCommentsforIssueId = async (req, res) => {
+    try {
+        const { issueId } = req.params;
+        const comments = await getCommentsForIssueFromAPI(projectID, issueId);
+
+        res.json(comments); 
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Failed to fetch comments for the specific issue');
+    }
+}
+
+
+/**
+ * fetches the issues for a specific project
+ * @returns {Promise<Array>} - array of issues
+ */
 const fetchIssues = async () => {
     const response = await fetch(`https://gitlab.lnu.se/api/v4/projects/${projectID}/issues`, {
         headers: {
@@ -50,24 +80,15 @@ const fetchIssues = async () => {
 };
 
 
-// just fetch comments for issue id within projekt id 
-export const fetchCommentsforIssueId = async (req, res) => {
-    try {
-        const { issueId } = req.params;
-        const comments = await fetchCommentsforIssue(projectID, issueId);
 
-        res.json(comments); 
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Failed to fetch comments for the specific issue');
-    }
-}
-
-
-
-
-// fetches the issues for a project and renders issues 
-export const listIssuesWithComments = async (req, res) => {
+/**
+ * fetches the issues for a project and renders issues view
+ * update the res.locals with some global template values
+ * Date formatting for issues
+ * @param {object} req - request object
+ * @param {object} res - response object 
+ */
+export const listIssues = async (req, res) => {
     try {
         const issues = await fetchIssues();
 
@@ -95,6 +116,11 @@ export const listIssuesWithComments = async (req, res) => {
     }
 }
 
+/**
+ * Close a specific issue
+ * @param {object} req - request object
+ * @param {object} res - response object
+ */
 export const closeIssue = async (req, res) => {
     const issueId = req.params.issueId;
     try {
@@ -113,7 +139,11 @@ export const closeIssue = async (req, res) => {
     }
 }
 
-
+/**
+ * Reopen a specific issue
+ * @param {object} req - request object
+ * @param {object} res - response object
+ */
 export const reopenIssue = async (req, res) => {
     const issueId = req.params.issueId;
     try {

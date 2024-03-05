@@ -24,7 +24,7 @@ function isAuthenticated (req, res, next) {
     res.redirect('users/login')
 }
 
-
-router.get('/', isAuthenticated, controller.listCommits) // list commits for a specific repository
+// GET /commits
+router.get('/', isAuthenticated, controller.listCommits)
 
 export default router

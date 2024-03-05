@@ -1,6 +1,9 @@
+/**
+ * this file is responsible for defining the schema for the user model
+ */
+
 import mongoose from "mongoose";
 
-// defining the schema
 
 const userSchema = new mongoose.Schema({
     username: {

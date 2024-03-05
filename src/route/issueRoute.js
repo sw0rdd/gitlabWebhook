@@ -23,13 +23,16 @@ function isAuthenticated (req, res, next) {
     res.redirect('users/login')
 }
 
+// GET /issues
+router.get('/', isAuthenticated  ,controller.listIssues)
 
-router.get('/', isAuthenticated  ,controller.listIssuesWithComments) // list specific repository issues
+// get comments for a specific issue (request from the client)
+router.get('/comments/:issueId', isAuthenticated, controller.fetchCommentsforIssueId) 
 
-router.get('/comments/:issueId', isAuthenticated, controller.fetchCommentsforIssueId) // get comments for a specific issue
+// close a specific issue
+router.post('/close/:issueId', isAuthenticated, controller.closeIssue)
 
-router.post('/close/:issueId', isAuthenticated, controller.closeIssue) // close a specific issue
-
-router.post('/reopen/:issueId', isAuthenticated, controller.reopenIssue) // open a specific issue
+// open a specific issue
+router.post('/reopen/:issueId', isAuthenticated, controller.reopenIssue)
 
 export default router

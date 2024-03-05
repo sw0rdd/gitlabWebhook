@@ -1,7 +1,16 @@
+/**
+ * This file is responsible for initializing the socket.io server and exporting the instance of the server.
+ */
+
 import {Server} from 'socket.io'
 
 let io;
 
+/**
+ * 
+ * @param {Server} server 
+ * @returns {Server}
+ */
 export const initIo = (server) => {
     io = new Server(server)
 
@@ -12,13 +21,14 @@ export const initIo = (server) => {
         })
     })
 
-    // I can add more event here
-
     return io
 }
 
 
-
+/**
+ * function to get the instance of the socket.io server 
+ * @returns {Server}
+ */
 export const getIo = () => {
     if (!io) {
         throw new Error('Socket.io not initialized!')
