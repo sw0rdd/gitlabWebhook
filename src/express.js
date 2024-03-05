@@ -17,7 +17,7 @@ import mongoose from 'mongoose'
 import userRouter from './route/userRoute.js'
 import issuerouter from './route/issueRoute.js'
 import commitsRouter from './route/commitsRoute.js'
-import handleHook  from './controller/webhookController.js'
+import handleHook from './controller/webhookController.js'
 
 dotenv.config()
 
@@ -26,36 +26,34 @@ const app = express()
 app.set('view engine', 'ejs')
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
-    console.log('Connected to MongoDB')
+  console.log('Connected to MongoDB')
 }).catch(err => {
-    console.log(err)
+  console.log(err)
 })
 
 app.use(session({
-    cookie: {
-        maxAge: 86400000,
-        secure: false,
-        httpOnly: true
-    },
-    resave: false,
-    saveUninitialized: false,
-    secret: 'cat cat'
+  cookie: {
+    maxAge: 86400000,
+    secure: false,
+    httpOnly: true
+  },
+  resave: false,
+  saveUninitialized: false,
+  secret: 'cat cat'
 }))
 
 app.use(flash())
 
-
 // middle ware to set some values
 app.use((req, res, next) => {
-    res.locals.messages = req.flash()
-    res.locals.user = req.session.user
+  res.locals.messages = req.flash()
+  res.locals.user = req.session.user
 
-    res.locals.repoUrl = '';
-    res.locals.authorUrl = '';
-    res.locals.issuesUrl = '';
-    next();
+  res.locals.repoUrl = ''
+  res.locals.authorUrl = ''
+  res.locals.issuesUrl = ''
+  next()
 })
-
 
 app.use(logger('dev'))
 app.use(express.static('public'))
@@ -64,24 +62,22 @@ app.use(expressLayout)
 app.set('layout', 'layouts/layout')
 app.use(express.urlencoded({ extended: true }))
 
-
 app.use('/issues', issuerouter)
 app.use('/users', userRouter)
 app.use('/commits', commitsRouter)
 
 app.get('/', (req, res) => {
-    res.render('index')
+  res.render('index')
 })
-
 
 // Webhook route
 app.post(`/${process.env.WEBHOOK_ROUTE}`, handleHook)
 
 export default (port = process.env.PORT || 3000) => {
-    const httpServer = createServer(app)
-    initIo(httpServer) 
+  const httpServer = createServer(app)
+  initIo(httpServer)
 
-    httpServer.listen(port, () => {
-        console.log(`Server is running on port ${port}`)
-    })
+  httpServer.listen(port, () => {
+    console.log(`Server is running on port ${port}`)
+  })
 }

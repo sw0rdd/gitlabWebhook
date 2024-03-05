@@ -1,10 +1,8 @@
 import express from 'express'
 
-const router = express.Router()
-
-
 import * as controller from '../controller/commitsController.js'
 
+const router = express.Router()
 
 /**
  * Middleware to check if the user is authenticated.
@@ -16,12 +14,12 @@ import * as controller from '../controller/commitsController.js'
  * @returns {Function} - next function
  */
 function isAuthenticated (req, res, next) {
-    if (req.session.user) {
-      return next()
-    }
-    req.session.orignalUrl = req.originalUrl;
-    req.flash('error', 'You need to be logged in to access this page')
-    res.redirect('users/login')
+  if (req.session.user) {
+    return next()
+  }
+  req.session.orignalUrl = req.originalUrl
+  req.flash('error', 'You need to be logged in to access this page')
+  res.redirect('users/login')
 }
 
 // GET /commits

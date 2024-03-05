@@ -176,17 +176,19 @@ header p {
     line-height: 1.5; 
 }
 
+.issue-button {
+    cursor: pointer;
+    outline: none;
+    margin-right: 10px;
+}
+
+
 .issue-link:hover, .issue-button:hover,
 .commit-link:hover {
     background-color: #0056b3;
 }
 
 
-.issue-button {
-    cursor: pointer;
-    outline: none;
-    margin-right: 10px;
-}
 
 
 

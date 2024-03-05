@@ -1,5 +1,5 @@
-import User from '../model/user.js';
-import bcrypt from 'bcrypt';
+import User from '../model/user.js'
+import bcrypt from 'bcrypt'
 
 /**
  * render register form
@@ -82,10 +82,9 @@ export const handleLogin = async (req, res) => {
           return res.redirect('/users/login')
         }
 
-        const redirectUrl = req.session.orignalUrl || '/';
-        delete req.session.orignalUrl;
+        const redirectUrl = req.session.orignalUrl || '/'
+        delete req.session.orignalUrl
         return res.redirect(redirectUrl)
-
       })
     } else {
       req.flash('error', 'Invalid username or passWord')
