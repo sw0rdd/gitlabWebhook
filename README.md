@@ -1,5 +1,9 @@
 # B3 Production
 
+The application in production can be found [here](https://cscloud7-220.lnu.se/)
+<br>
+Video Presentation can be found [here](...)
+
 
 ## Description
 This application provides a dynamic interface for monitoring and managing issues within a specific GitLab repository. Key features include:
@@ -11,6 +15,8 @@ This application provides a dynamic interface for monitoring and managing issues
 - Capability to open or close issues directly from the app
 
 While this app allows for opening and closing issues directly, other actions such as commenting or detailed issue management can be performed on GitLab. Changes made on GitLab will reflect in the app in real time, ensuring seamless synchronization.
+
+In this demo you will be able to run the application on localhost
 
 
 ## Instructions and Usage
@@ -86,5 +92,4 @@ Start the application using npm:
 
 ```
 npm start 
-
 ```
