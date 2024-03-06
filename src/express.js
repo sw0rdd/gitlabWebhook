@@ -12,6 +12,7 @@ import { createServer } from 'http'
 import { initIo } from './socket.js'
 import flash from 'connect-flash'
 import session from 'express-session'
+import MongoStore from 'connect-mongo'
 import mongoose from 'mongoose'
 
 import userRouter from './route/userRoute.js'
@@ -23,6 +24,7 @@ dotenv.config()
 
 const app = express()
 
+// app.set('trust proxy', 1) // trust first proxy, use this in case of production
 app.set('view engine', 'ejs')
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
@@ -31,6 +33,21 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log(err)
 })
 
+
+// USE THIS IN CASE OF PRODUCTION TO STORE SESSION IN MONGODB instead of memory
+// app.use(session({
+//   cookie: {
+//     maxAge: 86400000,
+//     secure: process.env.NODE_ENV === 'production',
+//     httpOnly: true
+//   },
+//   store: MongoStore.create({mongoUrl: process.env.MONGODB_URI}),
+//   resave: false,
+//   saveUninitialized: false,
+//   secret: process.env.SESSION_SECRET
+// }))
+
+// USE THIS IN CASE OF DEVELOPMENT
 app.use(session({
   cookie: {
     maxAge: 86400000,

@@ -335,3 +335,42 @@ header p {
     position: absolute;
     left: -20px;
 }
+
+@media (max-width: 768px) {
+    .header_container, .login-out-actions {
+        flex-direction: column;
+        text-align: center; /* Ensure text and buttons are centered */
+    }
+
+    .header_container {
+        padding: 15px; /* Adjust padding to ensure it fits within the screen */
+    }
+
+    .login-out-actions > * {
+        margin-top: 10px; /* Add some space between stacked items */
+        width: 100%; /* Ensure buttons use available width without overflowing */
+        box-sizing: border-box; /* Include padding and border in the element's total width */
+    }
+
+    /* Ensure buttons and links within the header container don't overflow */
+    .login-out-actions, .corner-button, .login-button, .logout-button, .register-button {
+        flex-direction: column; /* Stack elements vertically on small screens */
+        margin: 5px 0; /* Add some margin between elements */
+    }
+
+    header h1, header p {
+        margin: 10px 0; /* Reduce margin to save space */
+        font-size: 1em; /* Adjust font size for h1 and slightly reduce for p to fit smaller screens */
+    }
+
+    .corner-button a, .login-button a, .logout-button a, .register-button a {
+        padding: 8px 16px; /* Adjust button padding if needed */
+        font-size: 0.9em; /* Adjust font size for smaller screens */
+    }
+
+    /* Further adjust navbar and other elements if necessary */
+    .navbar a, .navbar li a {
+        font-size: 1em; /* Adjust navbar link font size */
+    }
+
+}

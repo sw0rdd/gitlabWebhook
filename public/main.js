@@ -38,9 +38,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (data.object_attributes.state === 'closed') {
           isseuElement.querySelector('.issue-status').classList.remove('status-opened')
           isseuElement.querySelector('.issue-status').classList.add('status-closed')
+
+          isseuElement.querySelector('.close-issue').style.display = 'none'
+          isseuElement.querySelector('.reopen-issue').style.display = 'inline-block'
+
         } else {
           isseuElement.querySelector('.issue-status').classList.remove('status-closed')
           isseuElement.querySelector('.issue-status').classList.add('status-open')
+
+          isseuElement.querySelector('.reopen-issue').style.display = 'none'
+          isseuElement.querySelector('.close-issue').style.display = 'inline-block'
         }
 
         isseuElement.querySelector('.issue-description').textContent = `Description: ${data.object_attributes.description}`

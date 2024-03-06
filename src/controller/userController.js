@@ -43,7 +43,7 @@ export const handleRegister = async (req, res) => {
       res.status(409).redirect('/users/register')
     } else {
       req.flash('error', 'An error occurred during registration.')
-      res.satus(500).redirect('/users/register')
+      res.status(500).redirect('/users/register')
     }
   }
 }
@@ -82,8 +82,8 @@ export const handleLogin = async (req, res) => {
           return res.redirect('/users/login')
         }
 
-        const redirectUrl = req.session.orignalUrl || '/'
-        delete req.session.orignalUrl
+        const redirectUrl = req.session.originalUrl || '/'
+        delete req.session.originalUrl
         return res.redirect(redirectUrl)
       })
     } else {
