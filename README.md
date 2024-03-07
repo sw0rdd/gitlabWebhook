@@ -1,6 +1,7 @@
 # B3 Production
 
 The application in production can be found [here](https://cscloud7-220.lnu.se/)
+NOTE! The university server will not host the website forever.
 <br>
 Video Presentation can be found [here](https://youtu.be/mn6RPgo0_aQ)
 
