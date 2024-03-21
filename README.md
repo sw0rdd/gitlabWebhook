@@ -1,4 +1,4 @@
-# B3 Production
+# gitlab Webhook
 
 The application in production can be found [here](https://cscloud7-220.lnu.se/)
 NOTE! The university server will not host the website forever.
